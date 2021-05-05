@@ -8,6 +8,8 @@ screen = pygame.display.set_mode((450,800))
 clock = pygame.time.Clock()
 
 bg = pygame.image.load('bg.png')
+bg = pygame.transform.scale(bg, (screen.get_width(), screen.get_height()))
+
 
 run = pygame.image.load('run.png')
 walk = pygame.image.load('walking.png')
@@ -18,6 +20,19 @@ logger = pygame.image.load('logger.png')
 
 
 pygame.display.set_caption('Mobile Phone Emulator')
+
+
+def setupScreen():
+	screen.blit(bg, (0, 0))
+
+	# apps
+	screen.blit(run, (40, 260))
+	screen.blit(walk, (screen.get_width() * 3/4, 320))
+	screen.blit(eat, (screen.get_width() * 3/16, 120))
+	screen.blit(cycle, (screen.get_width() * 5/8, 170))
+	screen.blit(weight, (screen.get_width() * 11/32, 400))
+	screen.blit(logger, (screen.get_width() * 1/2, screen.get_height() * 3/8))
+
 
 
 while done != 1:
@@ -33,17 +48,7 @@ while done != 1:
 	screen.fill((118,130,121))
 
 
-	# screen background image
-	screen.blit(bg, (0, 0))
-
-	# apps
-	screen.blit(run, (40, 260))
-	screen.blit(walk, (400 * 3/4, 320))
-	screen.blit(eat, (400 * 3/16, 120))
-	screen.blit(cycle, (400 * 5/8, 170))
-	screen.blit(weight, (400 * 11/32, 400))
-	screen.blit(logger, (400 * 1/2, 800 * 3/8))
-
+	setupScreen()
 
 	pygame.display.update()
 	clock.tick(75)
