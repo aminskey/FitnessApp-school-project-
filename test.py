@@ -19,6 +19,8 @@ weight = pygame.image.load('weight.png')
 logger = pygame.image.load('logger.png')
 
 
+
+
 pygame.display.set_caption('Mobile Phone Emulator')
 
 
@@ -33,7 +35,23 @@ def setupScreen():
 	screen.blit(weight, (screen.get_width() * 11/32, 400))
 	screen.blit(logger, (screen.get_width() * 1/2, screen.get_height() * 3/8))
 
+def runScreen():
+	background = pygame.image.load('runbg.png')
+	background = pygame.transform.scale(background, (screen.get_width(), screen.get_height()))
 
+	screen.blit(background, (0, 0))
+
+def foodScreen():
+	background = pygame.image.load('foodbackground.png')
+	background = pygame.transform.scale(background, (screen.get_width(), screen.get_height()))
+
+	screen.blit(background, (0,0))
+
+def trainingScreen():
+	background = pygame.image.load('trainbackground.png')
+	background = pygame.transform.scale(background, (screen.get_width(), screen.get_height()))
+
+	screen.blit(background, (0, 0))
 
 while done != 1:
 	for event in pygame.event.get():
@@ -48,7 +66,7 @@ while done != 1:
 	screen.fill((118,130,121))
 
 
-	setupScreen()
+	trainingScreen()
 
 	pygame.display.update()
 	clock.tick(75)
