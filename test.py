@@ -53,20 +53,47 @@ def trainingScreen():
 
 	screen.blit(background, (0, 0))
 
+def hitBox(image, mpos, startpos):
+	x2, y2 = image.get_size()
+	mx, my = mpos
+	x1, y1 = startpos
+
+	x2 = x1 + x2
+	y2 = y1 + y2
+
+	if (mx > x1 and mx < x2) and (my > y1 and my < y2):
+		return True
+	else:
+		return False
+
+setState = 1
+
 while done != 1:
+
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			done = 1
 			break
-		if event.type == pygame.MOUSEMOTION:
-#			print("Yay")
-			break
+		else:
+			if event.type == pygame.MOUSEBUTTONDOWN:
+				pos = pygame.mouse.get_pos()
+				print(hitBox(run, pos, (40, 260)))
+
+				if hitBox(run, pos, (40, 260)):
+					setState = 0
+					runScreen()
+				if hitBox(eat, pos, (screen.get_width() * 3/16, 120)):
+					setState = 0
+					foodScreen()
+				if hitBox(weight, pos, (screen.get_width() * 11/32, 400)):
+					setState = 0
+					trainingScreen()
+
+	if setState == 1:
+		setupScreen()
 
 	# screen background color
-	screen.fill((118,130,121))
 
-
-	trainingScreen()
 
 	pygame.display.update()
 	clock.tick(75)
