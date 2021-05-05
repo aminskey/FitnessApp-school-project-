@@ -33,12 +33,16 @@ pygame.display.set_caption('Mobile Phone Emulator')
 
 RED = (209, 9, 79)
 
+win = False
+
 
 def speech(string, Lang='en'):
 
 	tts = gTTS(string, lang=Lang)
 	tts.save('file.mp3')
 	playsound.playsound('file.mp3')
+	remove('file.mp3')
+
 
 def setupScreen():
 
@@ -107,17 +111,17 @@ def runScreen():
 	font4 = pygame.font.SysFont(None, 120)
 
 
-	text = font.render('Kilometers', True, RED)
-	text2 = font.render('Ran', True, RED)
+	text = font.render('Kilometer', True, RED)
+	text2 = font.render('løbet', True, RED)
 
-	cals1 = font.render('Calories', True, RED)
-	cals2 = font.render('Burnt', True, RED)
+	cals1 = font.render('Kalorier', True, RED)
+	cals2 = font.render('Brændt', True, RED)
 
 	km = font3.render('19', True, RED)
 	res = font4.render(str((60*19)/1000) + 'K', True, RED)
 
-	kmtag = font2.render('Kilometers', True, (0, 0, 0))
-	timetag = font2.render('Time', True, (0, 0, 0))
+	kmtag = font2.render('Kilometer', True, (0, 0, 0))
+	timetag = font2.render('Tid', True, (0, 0, 0))
 
 
 	screen.blit(text, (screen.get_width() * 1//8, screen.get_height() * 1//8))
@@ -133,6 +137,12 @@ def runScreen():
 
 	screen.blit(kmtag, kmtagpos)
 	screen.blit(timetag, timetagpos)
+
+	win = True
+
+	log = (19, 60*90)
+
+	return win
 
 def foodScreen():
 	background = pygame.image.load('foodbackground.png')
@@ -193,8 +203,7 @@ while done != 1:
 
 				if hitBox(run, pos, (40, 260)):
 					setState = 0
-					runScreen()
-					speech("Tillykke, du vandt Kalorie brænder mærket.", "da")
+					win=runScreen()
 
 				elif hitBox(eat, pos, (screen.get_width() * 3/16, 120)):
 					setState = 0
@@ -219,8 +228,6 @@ while done != 1:
 				elif setState == 0:
 					if hitBox(house, pos, (0, 0)):
 						setState = 1
-
-
 	if setState == 1:
 		setupScreen()
 	else:
@@ -233,5 +240,10 @@ while done != 1:
 
 	pygame.display.update()
 	clock.tick(75)
+
+	if win:
+		speech("Tillykke, du vandt Kalorie brænder mærket.", "da")
+		win = False
+
 
 pygame.display.quit()
