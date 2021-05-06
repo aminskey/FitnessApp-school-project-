@@ -228,20 +228,34 @@ def loggerScreen():
 	w = screen.get_width() * 6//8
 	l = screen.get_height() * 6//8
 
+
+	font = pygame.font.SysFont(None, 70)
+
 	stats = pygame.Surface((w, l))
 	data = pygame.Surface((w, l * 3//8))
 
+	header = font.render('Kcal/Tid graf:', True, RED)
+	header2 = font.render('Mærker:', True, RED)
 
 	stats.set_alpha(200)
 	data.set_alpha(200)
+#	graph.set_alpha(200)
+
+	graph = pygame.image.load('graph.png')
+	badge = pygame.image.load('badges/calorieburner.png')
 
 	stats.fill((50, 50, 50))
 	data.fill((230, 230, 230))
 
+	graph = pygame.transform.scale(graph, (stats.get_width(), graph.get_height()))
+	badge = pygame.transform.scale(badge, (100, 200))
 
 	screen.blit(background, (0, 0))
 	screen.blit(stats, (screen.get_width() * 1//8, screen.get_height() * 1//8))
-	screen.blit(data, (screen.get_width() * 1//8, screen.get_height() * 2//8))
+	screen.blit(header, (screen.get_width() * 1//8, screen.get_height() * 1//8))
+	screen.blit(header2, (screen.get_width() * 1//8, screen.get_height() * 4//8))
+	screen.blit(graph, (screen.get_width() * 1//8, screen.get_height() * 2//8))
+	screen.blit(badge, (screen.get_width() * 1//2, screen.get_height() * 5//8))
 
 
 def hitBox(image, mpos, startpos):
