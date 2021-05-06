@@ -32,6 +32,7 @@ calburn = pygame.transform.scale(calburn, (55, 110))
 pygame.display.set_caption('Mobile Phone Emulator')
 
 RED = (209, 9, 79)
+GREEN = (30, 94, 10)
 
 win = False
 
@@ -150,6 +151,57 @@ def foodScreen():
 
 	screen.blit(background, (0,0))
 
+	w = screen.get_width() * 6//8
+	l = screen.get_height() * 6//8
+
+	font1 = pygame.font.SysFont(None, 40)
+	font2 = pygame.font.SysFont(None, 20)
+
+	monday = font1.render('Monday', True, (0,0,0))
+	tuesday = font1.render('Tuesday', True, (0,0,0))
+	wednsday = font1.render('Wednsday', True, (0,0,0))
+
+	mondayTxt = font2.render('I dag skal du have spist salat og Brød:', True, GREEN)
+	mondayTxt2 = font2.render('Russisk salat, Israelske Salat osv (Husk komplekse kulhydrater)', True, GREEN)
+
+	tuesdayTxt = font2.render('Spise salat, med diverse frugter og sandwich', True, GREEN)
+	tuesdayTxt2 = font2.render('Måske: Granatæble, kylling sandwich, andre slags frugt', True, GREEN)
+
+
+	wednsdayTxt = font2.render('Cheat Day!! (Denne dag kommer hver 8. måned)', True, GREEN)
+	wednsdayTxt2 = font2.render('Spis Hvad du har lyst til', True, GREEN)
+
+
+	stats = pygame.Surface((w, l))
+	stats.set_alpha(200)
+	stats.fill((230, 230, 230))
+
+	# Monday
+	pygame.draw.line(stats, (0, 0, 0), (stats.get_width() * 1//8, stats.get_height() * 1//8), (stats.get_width()*7//8, stats.get_height() * 1//8), 5)
+	pygame.draw.line(stats, (0, 0, 0), (stats.get_width() * 1//8, stats.get_height() * 2//8), (stats.get_width()*7//8, stats.get_height() * 2//8), 5)
+
+	# Tuesday
+	pygame.draw.line(stats, (0, 0, 0), (stats.get_width() * 1//8, stats.get_height() * 4//8), (stats.get_width()*7//8, stats.get_height() * 4//8), 5)
+	pygame.draw.line(stats, (0, 0, 0), (stats.get_width() * 1//8, stats.get_height() * 5//8), (stats.get_width()*7//8, stats.get_height() * 5//8), 5)
+
+	# Wednsday
+	pygame.draw.line(stats, (0, 0, 0), (stats.get_width() * 1//8, stats.get_height() * 7//8), (stats.get_width()*7//8, stats.get_height() * 7//8), 5)
+	pygame.draw.line(stats, (0, 0, 0), (stats.get_width() * 1//8, stats.get_height() * 8//8), (stats.get_width()*7//8, stats.get_height() * 8//8), 5)
+
+	screen.blit(stats, (screen.get_width() * 1//8, screen.get_height() * 1//8))
+
+	screen.blit(monday, ((stats.get_width() - len('Monday'))/2, 4 * stats.get_height() * 1//16))
+	screen.blit(tuesday, ((stats.get_width() - len('Tuesday'))/2, 4 * stats.get_height() * 5//32))
+	screen.blit(wednsday, ((stats.get_width() - len('Wednsnday'))/2, 4 * stats.get_height() * 8//32))
+
+	screen.blit(mondayTxt, (stats.get_width() * 3//16, 4 * stats.get_height() * 5//64))
+	screen.blit(mondayTxt2, (stats.get_width() * 3//16, 4 * stats.get_height() * 3//32))
+
+	screen.blit(tuesdayTxt, (stats.get_width() * 3//16, 4 * stats.get_height() * 11//64))
+	screen.blit(tuesdayTxt2, (stats.get_width() * 3//16, 4 * stats.get_height() * 6//32))
+
+	screen.blit(wednsdayTxt, (stats.get_width() * 3//16, 4 * stats.get_height() * 17//64))
+	screen.blit(wednsdayTxt2, (stats.get_width() * 3//16, 4 * stats.get_height() * 9//32))
 
 def trainingScreen():
 	background = pygame.image.load('trainbackground.png')
@@ -173,7 +225,24 @@ def loggerScreen():
 	background = pygame.image.load('lgbg.png')
 	background = pygame.transform.scale(background, (screen.get_width(), screen.get_height()))
 
+	w = screen.get_width() * 6//8
+	l = screen.get_height() * 6//8
+
+	stats = pygame.Surface((w, l))
+	data = pygame.Surface((w, l * 3//8))
+
+
+	stats.set_alpha(200)
+	data.set_alpha(200)
+
+	stats.fill((50, 50, 50))
+	data.fill((230, 230, 230))
+
+
 	screen.blit(background, (0, 0))
+	screen.blit(stats, (screen.get_width() * 1//8, screen.get_height() * 1//8))
+	screen.blit(data, (screen.get_width() * 1//8, screen.get_height() * 2//8))
+
 
 def hitBox(image, mpos, startpos):
 	x2, y2 = image.get_size()
@@ -201,29 +270,30 @@ while done != 1:
 				pos = pygame.mouse.get_pos()
 				print(hitBox(run, pos, (40, 260)))
 
-				if hitBox(run, pos, (40, 260)):
-					setState = 0
-					win=runScreen()
+				if setState == 1:
+					if hitBox(run, pos, (40, 260)):
+						setState = 0
+						win=runScreen()
 
-				elif hitBox(eat, pos, (screen.get_width() * 3/16, 120)):
-					setState = 0
-					foodScreen()
+					elif hitBox(eat, pos, (screen.get_width() * 3/16, 120)):
+						setState = 0
+						foodScreen()
 
-				elif hitBox(weight, pos, (screen.get_width() * 11/32, 400)):
-					setState = 0
-					trainingScreen()
+					elif hitBox(weight, pos, (screen.get_width() * 11/32, 400)):
+						setState = 0
+						trainingScreen()
 
-				elif hitBox(cycle, pos, (screen.get_width() * 5/8, 170)):
-					setState = 0
-					cycleScreen()
+					elif hitBox(cycle, pos, (screen.get_width() * 5/8, 170)):
+						setState = 0
+						cycleScreen()
 
-				elif hitBox(walk, pos, (screen.get_width() * 3/4, 320)):
-					setState = 0
-					walkScreen()
+					elif hitBox(walk, pos, (screen.get_width() * 3/4, 320)):
+						setState = 0
+						walkScreen()
 
-				elif hitBox(logger, pos, (screen.get_width() * 1/2, screen.get_height() * 3/8)):
-					setState = 0
-					loggerScreen()
+					elif hitBox(logger, pos, (screen.get_width() * 1/2, screen.get_height() * 3/8)):
+						setState = 0
+						loggerScreen()
 
 				elif setState == 0:
 					if hitBox(house, pos, (0, 0)):
@@ -240,10 +310,5 @@ while done != 1:
 
 	pygame.display.update()
 	clock.tick(75)
-
-	if win:
-		speech("Tillykke, du vandt Kalorie brænder mærket.", "da")
-		win = False
-
 
 pygame.display.quit()
